@@ -251,28 +251,33 @@ namespace my_container {
                 public:
                     // Constructor - builds the sorted indices vector
                     SideCrossOrder(const MyContainer<T>& container) : container_ptr(&container), current_position(0) {
-                        sorted_indices.resize(container.data.size()); // Initialize with size of data
+                        size_t size = container.data.size();
+                        if (size == 0) return; // Handle empty container
 
                         // Temporary vector for sorting
-                        std::vector<size_t> temp;
-                        temp.resize(container.data.size()); // Initialize with size of data
-                        std::iota(temp.begin(), temp.end(), 0); // Fill with indices [0, 1, 2, ...]
-                        size_t left = 0, right = temp.size() - 1; // Initialize pointers for side-cross pattern
-                        size_t i = 0; // Index for temp vector
+                        std::vector<size_t> temp_indices;
+                        temp_indices.resize(container.data.size()); // Initialize with size of data
+                        std::iota(temp_indices.begin(), temp_indices.end(), 0); // Fill with indices [0, 1, 2, ...]
                         
                         // Sort indices by values in original container (ascending order)
-                        std::sort(temp.begin(), temp.end(),
+                        std::sort(temp_indices.begin(), temp_indices.end(),
                                 [&container](size_t a, size_t b) { return container.data[a] < container.data[b]; });
                         
                         // Create side-cross pattern
-                        while (left < right) {
-                            sorted_indices[i++] = temp[left++]; // Take from left (smallest remaining)
-                            sorted_indices[i++] = temp[right--]; // Take from right (largest remaining)
-                        }
-
-                        // Handle middle element if odd number of elements
-                        if(left == right) {
-                            sorted_indices[i++] = temp[left++]; // Add the middle element
+                        sorted_indices.resize(container.data.size()); // Initialize with size of data
+                        size_t left = 0; // Start from the left
+                        size_t right = size - 1; // Start from the right
+                        size_t i = 0; // Index for sorted indices vector
+                        
+                        // Alternate between smallest and largest remaining elements
+                        while (left <= right) {
+                            // Take from left (smallest remaining)
+                            sorted_indices[i++] = temp_indices[left++];
+                            
+                            // Take from right (largest remaining) if we haven't crossed
+                            if (left <= right) {
+                                sorted_indices[i++] = temp_indices[right--];
+                            }
                         }
                     }
 
