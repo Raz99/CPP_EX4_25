@@ -1,3 +1,5 @@
+// Email: razcohenp@gmail.com
+
 #ifndef MYCONTAINER_HPP
 #define MYCONTAINER_HPP
 
@@ -87,6 +89,54 @@ namespace my_container {
                 return it;
             }
 
+            // Begin iterator for SideCrossOrder
+            SideCrossOrder begin_side_cross_order() const {
+                return SideCrossOrder(*this);
+            }
+
+            // End iterator for SideCrossOrder
+            SideCrossOrder end_side_cross_order() const {
+                SideCrossOrder it(*this);
+                it.current_position = data.size(); // "End" state
+                return it;
+            }
+
+            // Begin iterator for ReverseOrder
+            ReverseOrder begin_reverse_order() const {
+                return ReverseOrder(*this);
+            }
+
+            // End iterator for ReverseOrder
+            ReverseOrder end_reverse_order() const {
+                ReverseOrder it(*this);
+                it.current_position = data.size(); // "End" state
+                return it;
+            }
+
+            // Begin iterator for Order
+            Order begin_order() const {
+                return Order(*this);
+            }
+
+            // End iterator for Order
+            Order end_order() const {
+                Order it(*this);
+                it.current_position = data.size(); // "End" state
+                return it;
+            }
+
+            // Begin iterator for MiddleOutOrder
+            MiddleOutOrder begin_middle_out_order() const {
+                return MiddleOutOrder(*this);
+            }
+
+            // End iterator for MiddleOutOrder
+            MiddleOutOrder end_middle_out_order() const {
+                MiddleOutOrder it(*this);
+                it.current_position = data.size(); // "End" state
+                return it;
+            }
+
             // Iterator for ascending order
             class AscendingOrder {
                 private:
@@ -138,6 +188,7 @@ namespace my_container {
                     }
             };
 
+            // Iterator for descending order
             class DescendingOrder {
                 private:
                     std::vector<size_t> sorted_indices; // Indices sorted by values
@@ -171,8 +222,8 @@ namespace my_container {
                     }
 
                     // Post-increment operator - returns current state before incrementing
-                    AscendingOrder operator++(int) {
-                        AscendingOrder temp = *this; // Create a copy of current state
+                    DescendingOrder operator++(int) {
+                        DescendingOrder temp = *this; // Create a copy of current state
                         current_position++; // Increment current position
                         return temp; // Return the copy
                     }
@@ -187,6 +238,234 @@ namespace my_container {
                         return current_position != other.current_position;
                     }
             };
+
+            // Iterator for side-cross order
+            class SideCrossOrder {
+                private:
+                    std::vector<size_t> sorted_indices; // Indices sorted by values
+                    size_t current_position; // Current position in indices
+                    const MyContainer<T>* container_ptr; // Pointer to original container
+
+                    friend class MyContainer<T>; // To allow MyContainer to access private members
+
+                public:
+                    // Constructor - builds the sorted indices vector
+                    SideCrossOrder(const MyContainer<T>& container) : container_ptr(&container), current_position(0) {
+                        sorted_indices.resize(container.data.size()); // Initialize with size of data
+
+                        // Temporary vector for sorting
+                        std::vector<size_t> temp;
+                        temp.resize(container.data.size()); // Initialize with size of data
+                        std::iota(temp.begin(), temp.end(), 0); // Fill with indices [0, 1, 2, ...]
+                        size_t left = 0, right = temp.size() - 1; // Initialize pointers for side-cross pattern
+                        size_t i = 0; // Index for temp vector
+                        
+                        // Sort indices by values in original container (ascending order)
+                        std::sort(temp.begin(), temp.end(),
+                                [&container](size_t a, size_t b) { return container.data[a] < container.data[b]; });
+                        
+                        // Create side-cross pattern
+                        while (left < right) {
+                            sorted_indices[i++] = temp[left++]; // Take from left (smallest remaining)
+                            sorted_indices[i++] = temp[right--]; // Take from right (largest remaining)
+                        }
+
+                        // Handle middle element if odd number of elements
+                        if(left == right) {
+                            sorted_indices[i++] = temp[left++]; // Add the middle element
+                        }
+                    }
+
+                    // Dereference operator - returns current element
+                    const T& operator*() const {
+                        size_t actual_index = sorted_indices[current_position];
+                        return container_ptr->data[actual_index];
+                    }
+                    
+                    // Increment operator - moves to next element
+                    SideCrossOrder& operator++() {
+                        current_position++; // Increment current position
+                        return *this;
+                    }
+
+                    // Post-increment operator - returns current state before incrementing
+                    SideCrossOrder operator++(int) {
+                        SideCrossOrder temp = *this; // Create a copy of current state
+                        current_position++; // Increment current position
+                        return temp; // Return the copy
+                    }
+
+                    // Equal operator to compare iterators
+                    bool operator==(const SideCrossOrder& other) const {
+                        return current_position == other.current_position;
+                    }
+                    
+                    // Not equal operator to compare iterators
+                    bool operator!=(const SideCrossOrder& other) const {
+                        return current_position != other.current_position;
+                    }
+            };
+
+            // Iterator for reverse order
+            class ReverseOrder {
+                private:
+                    std::vector<size_t> sorted_indices; // Indices sorted by values
+                    size_t current_position; // Current position in indices
+                    const MyContainer<T>* container_ptr; // Pointer to original container
+
+                    friend class MyContainer<T>; // To allow MyContainer to access private members
+
+                public:
+                    // Constructor - builds the sorted indices vector
+                    ReverseOrder(const MyContainer<T>& container) : container_ptr(&container), current_position(0) {
+                        // Create indices vector: [0, 1, 2, ...]
+                        sorted_indices.resize(container.data.size()); // Initialize with size of data
+                        std::iota(sorted_indices.begin(), sorted_indices.end(), 0); // Fill with indices [0, 1, 2, ...]
+                        std::reverse(sorted_indices.begin(), sorted_indices.end()); // => [..., 2, 1, 0] (Reverse)
+                    }
+                    
+                    // Dereference operator - returns current element
+                    const T& operator*() const {
+                        size_t actual_index = sorted_indices[current_position];
+                        return container_ptr->data[actual_index];
+                    }
+                    
+                    // Increment operator - moves to next element
+                    ReverseOrder& operator++() {
+                        current_position++; // Increment current position
+                        return *this;
+                    }
+
+                    // Post-increment operator - returns current state before incrementing
+                    ReverseOrder operator++(int) {
+                        ReverseOrder temp = *this; // Create a copy of current state
+                        current_position++; // Increment current position
+                        return temp; // Return the copy
+                    }
+
+                    // Equal operator to compare iterators
+                    bool operator==(const ReverseOrder& other) const {
+                        return current_position == other.current_position;
+                    }
+                    
+                    // Not equal operator to compare iterators
+                    bool operator!=(const ReverseOrder& other) const {
+                        return current_position != other.current_position;
+                    }
+            };
+
+            // Iterator for regular order
+            class Order {
+                private:
+                    std::vector<size_t> sorted_indices; // Indices sorted by values
+                    size_t current_position; // Current position in indices
+                    const MyContainer<T>* container_ptr; // Pointer to original container
+
+                    friend class MyContainer<T>; // To allow MyContainer to access private members
+
+                public:
+                    // Constructor - builds the sorted indices vector
+                    Order(const MyContainer<T>& container) : container_ptr(&container), current_position(0) {
+                        // Create indices vector: [0, 1, 2, ...]
+                        sorted_indices.resize(container.data.size()); // Initialize with size of data
+                        std::iota(sorted_indices.begin(), sorted_indices.end(), 0); // Fill with indices [0, 1, 2, ...]
+                    }
+                    
+                    // Dereference operator - returns current element
+                    const T& operator*() const {
+                        size_t actual_index = sorted_indices[current_position];
+                        return container_ptr->data[actual_index];
+                    }
+                    
+                    // Increment operator - moves to next element
+                    Order& operator++() {
+                        current_position++; // Increment current position
+                        return *this;
+                    }
+
+                    // Post-increment operator - returns current state before incrementing
+                    Order operator++(int) {
+                        Order temp = *this; // Create a copy of current state
+                        current_position++; // Increment current position
+                        return temp; // Return the copy
+                    }
+
+                    // Equal operator to compare iterators
+                    bool operator==(const Order& other) const {
+                        return current_position == other.current_position;
+                    }
+                    
+                    // Not equal operator to compare iterators
+                    bool operator!=(const Order& other) const {
+                        return current_position != other.current_position;
+                    }
+            };
+
+            // Iterator for middle-out order
+            class MiddleOutOrder {
+                private:
+                    std::vector<size_t> sorted_indices; // Indices sorted by values
+                    size_t current_position; // Current position in indices
+                    const MyContainer<T>* container_ptr; // Pointer to original container
+
+                    friend class MyContainer<T>; // To allow MyContainer to access private members
+
+                public:
+                    // Constructor - builds the sorted indices vector
+                    MiddleOutOrder(const MyContainer<T>& container) : container_ptr(&container), current_position(0) {
+                        size_t size = container.data.size(); // Get size of the container
+                        if (size == 0) return;  // In case of empty container
+                        
+                        sorted_indices.resize(size); // Initialize with size of data
+                        size_t mid = size / 2;  // Find middle index
+                        size_t i = 0; // Index for sorted indices vector
+                        
+                        sorted_indices[i++] = mid; // Start with middle element
+                        
+                        // Alternate between left and right of middle
+                        for (size_t offset = 1; offset <= mid; ++offset) {
+                            // Add element to the left of middle (if exists)
+                            if (mid >= offset) {
+                                sorted_indices[i++] = mid - offset;
+                            }
+                            
+                            // Add element to the right of middle (if exists)
+                            if (mid + offset < size) {
+                                sorted_indices[i++] = mid + offset;
+                            }
+                        }
+                    }
+
+                    // Dereference operator - returns current element
+                    const T& operator*() const {
+                        size_t actual_index = sorted_indices[current_position];
+                        return container_ptr->data[actual_index];
+                    }
+                    
+                    // Increment operator - moves to next element
+                    MiddleOutOrder& operator++() {
+                        current_position++; // Increment current position
+                        return *this;
+                    }
+
+                    // Post-increment operator - returns current state before incrementing
+                    MiddleOutOrder operator++(int) {
+                        MiddleOutOrder temp = *this; // Create a copy of current state
+                        current_position++; // Increment current position
+                        return temp; // Return the copy
+                    }
+
+                    // Equal operator to compare iterators
+                    bool operator==(const MiddleOutOrder& other) const {
+                        return current_position == other.current_position;
+                    }
+                    
+                    // Not equal operator to compare iterators
+                    bool operator!=(const MiddleOutOrder& other) const {
+                        return current_position != other.current_position;
+                    }
+            };
+
     }; // End of MyContainer class
 
     template <typename T> // Template declaration
@@ -209,5 +488,4 @@ namespace my_container {
         return os;
     }
 } // namespace my_container
-
 #endif
