@@ -48,9 +48,11 @@ namespace my_container {
             return data.size(); // Return the size of the vector
         }
 
+        template <typename U> // Template declaration for friend function
+
         // Output operator (declaration of friend function)
-        friend std::ostream& operator<< <T>(std::ostream&, const MyContainer<T>&);
-    };
+        friend std::ostream& operator<<(std::ostream& os, const MyContainer<U>& container);
+    }; // End of MyContainer class
 
     template <typename T> // Template declaration
 
