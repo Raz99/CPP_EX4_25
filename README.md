@@ -18,7 +18,7 @@ This project implements a generic container `MyContainer<T>` in C++ with dynamic
   - `add(const T&)` – insert element
   - `remove(const T&)` – remove all instances
   - `size()` – return current count
-  - `operator<<` – print contents
+  - `operator<<` – print the container
 
 ### Iterators:
 Each iterator provides a different traversal strategy over the container:
