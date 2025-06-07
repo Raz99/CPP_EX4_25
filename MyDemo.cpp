@@ -3,7 +3,7 @@
 #include <iostream>
 #include "MyContainer.hpp"
 
-using namespace my_container;
+using namespace my_container; // Use the my_container namespace
 
 int main() {
     // MyContainer demonstration
