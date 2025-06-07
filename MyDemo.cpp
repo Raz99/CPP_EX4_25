@@ -9,25 +9,29 @@ int main() {
     std::cout << c << std::endl; // []
 
     // Add elements to the container
+    c.add(7);
+    c.add(15);
+    c.add(6);
     c.add(1);
     c.add(2);
-    c.add(1);
-    std::cout << "After adding elements (1, 2, 1):" << std::endl;
-    std::cout << c << std::endl; // [1, 2, 1]
+    c.add(9);
+    std::cout << "After adding elements:" << std::endl;
+    std::cout << c << std::endl; // [7, 15, 6, 1, 2, 9]
 
     // Size of the container
-    std::cout << "Size: " << c.size() << std::endl; // Size: 3
+    std::cout << "Size: " << c.size() << std::endl; // Size: 6
 
-    // Remove all occurrences of 1
-    c.remove(1);
-    std::cout << "After removing 1:" << std::endl;
-    std::cout << c << std::endl;  // [2]
+    // Remove all occurrences of 9
+    c.remove(9);
+    std::cout << "After removing 9:" << std::endl; // [7, 15, 6, 1, 2]
+    std::cout << c << std::endl;
 
-    std::cout << "[";
+    // Ascending order iteration
+    std::cout << "Ascending order: ";
     for (auto it = c.begin_ascending_order(); it != c.end_ascending_order(); ++it) {
-        std::cout << *it << ' '; // 2
+        std::cout << *it << ' '; // 1 2 6 7 15
     }
-    std::cout << "]" << std::endl;
+    std::cout << std::endl;
 
     return 0;
 }
