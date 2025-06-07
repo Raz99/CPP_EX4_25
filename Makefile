@@ -1,5 +1,4 @@
 # Email: razcohenp@gmail.com
-
 # Compiler and flags
 CXX = g++
 CXXFLAGS =  -g -std=c++17

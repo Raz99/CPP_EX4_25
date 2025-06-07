@@ -1,5 +1,4 @@
 // Email: razcohenp@gmail.com
-
 #ifndef MYCONTAINER_HPP
 #define MYCONTAINER_HPP
 
@@ -18,12 +17,15 @@ namespace my_container {
 
         public:
             // Forward declaration of iterator classes
-            class AscendingOrder;
-            class DescendingOrder;
-            class SideCrossOrder;
-            class ReverseOrder;
-            class Order;
-            class MiddleOutOrder;
+            class AscendingOrder; // Iterator for ascending order
+            class DescendingOrder; // Iterator for descending order
+            class SideCrossOrder; // Iterator for side-cross order
+            class ReverseOrder; // Iterator for reverse order
+            class Order; // Iterator for regular order
+            class MiddleOutOrder; // Iterator for middle-out order
+
+            // Default constructor
+            MyContainer() = default;
 
             // Add a new element to the container
             void add(const T& element) {
