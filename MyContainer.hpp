@@ -6,8 +6,8 @@
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
-#include <iostream>
-#include <numeric> // For std::iota
+#include <iostream> // For std::ostream
+#include <numeric> // For std::iota (to fill a vector with sequential numbers)
 
 namespace my_container {
     template <typename T = int> // Default type is int
