@@ -59,6 +59,11 @@
         "ios": "cpp",
         "locale": "cpp",
         "queue": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "chrono": "cpp",
+        "__hash_table": "cpp",
+        "deque": "cpp",
+        "forward_list": "cpp",
+        "unordered_map": "cpp"
     }
 }

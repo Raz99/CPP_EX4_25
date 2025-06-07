@@ -2,8 +2,10 @@
 #define MYCONTAINER_HPP
 
 #include <vector>
+#include <algorithm>
 #include <stdexcept>
 #include <iostream>
+#include <numeric> // For std::iota
 
 namespace my_container {
     template <typename T = int> // Default type is int
@@ -12,7 +14,15 @@ namespace my_container {
         private:
         std::vector<T> data; // Internal storage for elements
 
-        public:        
+        public:
+        // Forward declaration of iterator classes
+        class AscendingOrder;
+        class DescendingOrder;
+        class SideCrossOrder;
+        class ReverseOrder;
+        class Order;
+        class MiddleOutOrder;
+
         // Add a new element to the container
         void add(const T& element) {
             data.push_back(element); // Add element to the end of the vector
@@ -52,7 +62,216 @@ namespace my_container {
 
         // Output operator (declaration of friend function)
         friend std::ostream& operator<<(std::ostream& os, const MyContainer<U>& container);
-    }; // End of MyContainer class
+
+        // Begin iterator for ascending order
+        AscendingOrder begin_ascending_order() const {
+            return AscendingOrder(*this);
+        }
+
+        // End iterator for ascending order
+        AscendingOrder end_ascending_order() const {
+            AscendingOrder it(*this);
+            it.it = it.indices.end();  // Access private member via friend relationship
+            return it;
+        }
+
+        // // Begin iterator for descending order
+        // DescendingOrder begin_descending_order() const {
+        //     return DescendingOrder(*this);
+        // }
+
+        // // End iterator for descending order
+        // DescendingOrder end_descending_order() const {
+        //     DescendingOrder it(*this);
+        //     it.it = it.sorted.end();
+        //     return it;
+        // }
+
+        // Iterator for ascending order
+        class AscendingOrder {
+            private:
+            std::vector<size_t> indices; // Vector to hold indices of elements
+            typename std::vector<size_t>::iterator it; // Iterator for indices
+            const MyContainer* container; // Reference to original container
+
+            friend class MyContainer<T>;
+
+            public:
+            // Constructor - Create indices and sort them based on data values
+            AscendingOrder(const MyContainer& c) : container(&c) {
+                indices.resize(c.data.size()); // Resize indices to the size of data
+                std::iota(indices.begin(), indices.end(), 0); // Fill indices with 0, 1, 2, ...
+
+                // Sort indices based on the values in the container's data
+                std::sort(indices.begin(), indices.end(), [&c](size_t a, size_t b) { return c.data[a] < c.data[b]; });
+
+                it = indices.begin(); // Initialize iterator to the beginning of the sorted indices
+            }
+            
+            // Dereference operator
+            const T& operator*() const {
+                return container->data[*it];
+            }
+
+            // Prefix increment operator
+            AscendingOrder& operator++() {
+                ++it;
+                return *this;
+            }
+
+            // Postfix increment operator
+            AscendingOrder operator++(int) {
+                AscendingOrder temp = *this;
+                ++it;
+                return temp;
+            }
+
+            // Equal operator
+            bool operator==(const AscendingOrder& other) const {
+                return it == other.it;
+            }
+
+            // Not equal operator
+            bool operator!=(const AscendingOrder& other) const {
+                return it != other.it;
+            }
+        };
+
+        // // Iterator for ascending order
+        // class AscendingOrder {
+        //     private:
+        //     std::vector<T> sorted;
+        //     typename std::vector<T>::iterator it;
+
+        //     friend class MyContainer<T>; // To allow MyContainer to access private members
+
+        //     public:
+        //     // Constructor
+        //     AscendingOrder(const MyContainer& c) {
+        //         sorted = c.data; // Copy the data from the container
+        //         std::sort(sorted.begin(), sorted.end()); // Sort the data in ascending order
+        //         it = sorted.begin(); // Initialize iterator to the beginning of the sorted vector
+        //     }
+            
+        //     // Dereference operator
+        //     const T& operator*() const {
+        //         return *it;
+        //     }
+
+        //     // Prefix increment operator
+        //     AscendingOrder& operator++() {
+        //         ++it;
+        //         return *this;
+        //     }
+
+        //     // Postfix increment operator
+        //     AscendingOrder operator++(int) {
+        //         AscendingOrder temp = *this; // Create a copy of the current iterator
+        //         ++it; // Move to the next element
+        //         return temp; // Return the copy
+        //     }
+
+        //     // Equal operator to compare iterators
+        //     bool operator==(const AscendingOrder& other) const {
+        //         return it == other.it;
+        //     }
+
+        //     // Not equal operator to compare iterators
+        //     bool operator!=(const AscendingOrder& other) const {
+        //         return it != other.it;
+        //     }
+        // };
+
+        // // Iterator for descending order
+        // class DescendingOrder {
+        //     private:
+        //     std::vector<T> sorted;
+        //     typename std::vector<T>::iterator it;
+
+        //     friend class MyContainer<T>; // To allow MyContainer to access private members
+
+        //     public:
+        //     // Constructor
+        //     DescendingOrder(const MyContainer& c) {
+        //         sorted = c.data; // Copy the data from the container
+        //         std::sort(sorted.begin(), sorted.end(), std::greater<T>()); // Sort the data in descending order
+        //         it = sorted.begin(); // Initialize iterator to the beginning of the sorted vector
+        //     }
+            
+        //     // Dereference operator
+        //     const T& operator*() const {
+        //         return *it;
+        //     }
+
+        //     // Prefix increment operator
+        //     DescendingOrder& operator++() {
+        //         ++it;
+        //         return *this;
+        //     }
+
+        //     // Postfix increment operator
+        //     DescendingOrder operator++(int) {
+        //         AscendingOrder temp = *this; // Create a copy of the current iterator
+        //         ++it; // Move to the next element
+        //         return temp; // Return the copy
+        //     }
+
+        //     // Equal operator to compare iterators
+        //     bool operator==(const DescendingOrder& other) const {
+        //         return it == other.it;
+        //     }
+
+        //     // Not equal operator to compare iterators
+        //     bool operator!=(const DescendingOrder& other) const {
+        //         return it != other.it;
+        //     }
+        // };
+
+        // // Iterator for ascending order
+        // class SideCrossOrder {
+        //     private:
+        //     std::vector<T> ordered;
+        //     typename std::vector<T>::iterator it;
+
+        //     public:
+        //     // Constructor
+        //     SideCrossOrder(const MyContainer& c) {
+        //         MyContainer<T> temp = c.data; // Create an empty temporary container
+        //         std::sort(temp.begin(), temp.end()); // Sort the data in ascending order
+        //         sorted
+                
+        //         it = sorted.begin(); // Initialize iterator to the beginning of the sorted vector
+        //     }
+            
+        //     // Dereference operator
+        //     const T& operator*() const {
+        //         return *it;
+        //     }
+
+        //     // Prefix increment operator
+        //     SideCrossOrder& operator++() {
+        //         ++it;
+        //         return *this;
+        //     }
+
+        //     // Postfix increment operator
+        //     SideCrossOrder operator++(int) {
+        //         SideCrossOrder temp = *this; // Create a copy of the current iterator
+        //         ++it; // Move to the next element
+        //         return temp; // Return the copy
+        //     }
+
+        //     // Equal operator to compare iterators
+        //     bool operator==(const AscendingOrder& other) const {
+        //         return it == other.it;
+        //     }
+
+        //     // Not equal operator to compare iterators
+        //     bool operator!=(const AscendingOrder& other) const {
+        //         return it != other.it;
+        //     }
+        // };
+    };
 
     template <typename T> // Template declaration
 
