@@ -29,7 +29,7 @@ Each iterator provides a different traversal strategy over the container:
 - `Order` – insertion order
 - `MiddleOutOrder` – from center outward
 
-Each iterator supports `begin()`, `end()`, `operator*`, `operator++`, and `operator!=`.
+Each iterator supports `begin()`, `end()`, `operator*`, `operator++` (Prefix and Postfix), `operator==` and `operator!=`.
 
 ## Project Structure
 
