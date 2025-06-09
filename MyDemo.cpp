@@ -31,6 +31,7 @@ int main() {
     std::cout << "\n--- Iterators demonstration ---" << std::endl;
 
     // AscendingOrder iterator
+    // This iterator iterates through the elements in ascending order
     std::cout << "AscendingOrder: ";
     for (auto it = c.begin_ascending_order(); it != c.end_ascending_order(); ++it) {
         std::cout << *it << ' '; // 1 2 6 7 15
@@ -38,6 +39,7 @@ int main() {
     std::cout << std::endl;
 
     // DescendingOrder iterator
+    // This iterator iterates through the elements in descending order
     std::cout << "DescendingOrder: ";
     for (auto it = c.begin_descending_order(); it != c.end_descending_order(); ++it) {
         std::cout << *it << ' '; // 15 7 6 2 1
@@ -45,6 +47,8 @@ int main() {
     std::cout << std::endl;
 
     // SideCrossOrder iterator
+    // This iterator alternates between the smallest and largest elements
+    // It starts with the smallest element, then the largest, then the second smallest, and so on
     std::cout << "SideCrossOrder: ";
     for (auto it = c.begin_side_cross_order(); it != c.end_side_cross_order(); ++it) {
         std::cout << *it << ' '; // 1 15 2 7 6
@@ -52,6 +56,7 @@ int main() {
     std::cout << std::endl;
 
     // ReverseOrder iterator
+    // This iterator iterates through the elements in reverse order
     std::cout << "ReverseOrder: ";
     for (auto it = c.begin_reverse_order(); it != c.end_reverse_order(); ++it) {
         std::cout << *it << ' '; // 2 1 6 15 7
@@ -59,6 +64,7 @@ int main() {
     std::cout << std::endl;
 
     // Order iterator
+    // This iterator iterates through the elements in the order they were added
     std::cout << "Order: ";
     for (auto it = c.begin_order(); it != c.end_order(); ++it) {
         std::cout << *it << ' '; // 7 15 6 1 2
@@ -66,6 +72,7 @@ int main() {
     std::cout << std::endl;
 
     // MiddleOutOrder iterator
+    // This iterator starts from the middle and alternates between left and right
     std::cout << "MiddleOutOrder: ";
     for (auto it = c.begin_middle_out_order(); it != c.end_middle_out_order(); ++it) {
         std::cout << *it << ' '; // 6 15 1 7 2
