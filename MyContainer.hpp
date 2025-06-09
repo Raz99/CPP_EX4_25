@@ -69,72 +69,72 @@ namespace my_container {
 
             // Begin iterator for AscendingOrder
             AscendingOrder begin_ascending_order() const {
-                return AscendingOrder(*this);
+                return AscendingOrder(*this); // Create an iterator for the beginning state
             }
 
             // End iterator for AscendingOrder
             AscendingOrder end_ascending_order() const {
-                AscendingOrder it(*this);
+                AscendingOrder it(*this); // Create an iterator for the end state
                 it.current_position = data.size(); // "End" state
                 return it;
             }
 
             // Begin iterator for DescendingOrder
             DescendingOrder begin_descending_order() const {
-                return DescendingOrder(*this);
+                return DescendingOrder(*this); // Create an iterator for the beginning state
             }
 
             // End iterator for DescendingOrder
             DescendingOrder end_descending_order() const {
-                DescendingOrder it(*this);
+                DescendingOrder it(*this); // Create an iterator for the end state
                 it.current_position = data.size(); // "End" state
                 return it;
             }
 
             // Begin iterator for SideCrossOrder
             SideCrossOrder begin_side_cross_order() const {
-                return SideCrossOrder(*this);
+                return SideCrossOrder(*this); // Create an iterator for the beginning state
             }
 
             // End iterator for SideCrossOrder
             SideCrossOrder end_side_cross_order() const {
-                SideCrossOrder it(*this);
+                SideCrossOrder it(*this); // Create an iterator for the end state
                 it.current_position = data.size(); // "End" state
                 return it;
             }
 
             // Begin iterator for ReverseOrder
             ReverseOrder begin_reverse_order() const {
-                return ReverseOrder(*this);
+                return ReverseOrder(*this); // Create an iterator for the beginning state
             }
 
             // End iterator for ReverseOrder
             ReverseOrder end_reverse_order() const {
-                ReverseOrder it(*this);
+                ReverseOrder it(*this); // Create an iterator for the end state
                 it.current_position = data.size(); // "End" state
                 return it;
             }
 
             // Begin iterator for Order
             Order begin_order() const {
-                return Order(*this);
+                return Order(*this); // Create an iterator for the beginning state
             }
 
             // End iterator for Order
             Order end_order() const {
-                Order it(*this);
+                Order it(*this); // Create an iterator for the end state
                 it.current_position = data.size(); // "End" state
                 return it;
             }
 
             // Begin iterator for MiddleOutOrder
             MiddleOutOrder begin_middle_out_order() const {
-                return MiddleOutOrder(*this);
+                return MiddleOutOrder(*this); // Create an iterator for the beginning state
             }
 
             // End iterator for MiddleOutOrder
             MiddleOutOrder end_middle_out_order() const {
-                MiddleOutOrder it(*this);
+                MiddleOutOrder it(*this); // Create an iterator for the end state
                 it.current_position = data.size(); // "End" state
                 return it;
             }
@@ -162,14 +162,14 @@ namespace my_container {
                     
                     // Dereference operator - returns current element
                     const T& operator*() const {
-                        size_t actual_index = sorted_indices[current_position];
-                        return container_ptr->data[actual_index];
+                        size_t actual_index = sorted_indices[current_position]; // Get the actual index from sorted indices
+                        return container_ptr->data[actual_index]; // Return the element at that index
                     }
                     
                     // Increment operator - moves to next element
                     AscendingOrder& operator++() {
                         current_position++; // Increment current position
-                        return *this;
+                        return *this; // Return the updated iterator
                     }
 
                     // Post-increment operator - returns current state before incrementing
@@ -181,12 +181,12 @@ namespace my_container {
 
                     // Equal operator to compare iterators
                     bool operator==(const AscendingOrder& other) const {
-                        return current_position == other.current_position;
+                        return current_position == other.current_position; // Compare current positions of both iterators
                     }
                     
                     // Not equal operator to compare iterators
                     bool operator!=(const AscendingOrder& other) const {
-                        return current_position != other.current_position;
+                        return current_position != other.current_position; // Compare current positions of both iterators
                     }
             };
 
@@ -213,14 +213,14 @@ namespace my_container {
 
                     // Dereference operator - returns current element
                     const T& operator*() const {
-                        size_t actual_index = sorted_indices[current_position];
-                        return container_ptr->data[actual_index];
+                        size_t actual_index = sorted_indices[current_position]; // Get the actual index from sorted indices
+                        return container_ptr->data[actual_index]; // Return the element at that index
                     }
                     
                     // Increment operator - moves to next element
                     DescendingOrder& operator++() {
                         current_position++; // Increment current position
-                        return *this;
+                        return *this; // Return the updated iterator
                     }
 
                     // Post-increment operator - returns current state before incrementing
@@ -232,12 +232,12 @@ namespace my_container {
 
                     // Equal operator to compare iterators
                     bool operator==(const DescendingOrder& other) const {
-                        return current_position == other.current_position;
+                        return current_position == other.current_position; // Compare current positions of both iterators
                     }
                     
                     // Not equal operator to compare iterators
                     bool operator!=(const DescendingOrder& other) const {
-                        return current_position != other.current_position;
+                        return current_position != other.current_position; // Compare current positions of both iterators
                     }
             };
 
@@ -253,11 +253,11 @@ namespace my_container {
                 public:
                     // Constructor - builds the sorted indices vector
                     SideCrossOrder(const MyContainer<T>& container) : container_ptr(&container), current_position(0) {
-                        size_t size = container.data.size();
+                        size_t size = container.data.size(); // Get size of the container
                         if (size == 0) return; // Handle empty container
 
                         // Temporary vector for sorting
-                        std::vector<size_t> temp_indices;
+                        std::vector<size_t> temp_indices; // Temporary indices vector
                         temp_indices.resize(container.data.size()); // Initialize with size of data
                         std::iota(temp_indices.begin(), temp_indices.end(), 0); // Fill with indices [0, 1, 2, ...]
                         
@@ -285,14 +285,14 @@ namespace my_container {
 
                     // Dereference operator - returns current element
                     const T& operator*() const {
-                        size_t actual_index = sorted_indices[current_position];
-                        return container_ptr->data[actual_index];
+                        size_t actual_index = sorted_indices[current_position]; // Get the actual index from sorted indices
+                        return container_ptr->data[actual_index]; // Return the element at that index
                     }
                     
                     // Increment operator - moves to next element
                     SideCrossOrder& operator++() {
                         current_position++; // Increment current position
-                        return *this;
+                        return *this; // Return the updated iterator
                     }
 
                     // Post-increment operator - returns current state before incrementing
@@ -304,12 +304,12 @@ namespace my_container {
 
                     // Equal operator to compare iterators
                     bool operator==(const SideCrossOrder& other) const {
-                        return current_position == other.current_position;
+                        return current_position == other.current_position; // Compare current positions of both iterators
                     }
                     
                     // Not equal operator to compare iterators
                     bool operator!=(const SideCrossOrder& other) const {
-                        return current_position != other.current_position;
+                        return current_position != other.current_position; // Compare current positions of both iterators
                     }
             };
 
@@ -333,14 +333,14 @@ namespace my_container {
                     
                     // Dereference operator - returns current element
                     const T& operator*() const {
-                        size_t actual_index = sorted_indices[current_position];
-                        return container_ptr->data[actual_index];
+                        size_t actual_index = sorted_indices[current_position]; // Get the actual index from sorted indices
+                        return container_ptr->data[actual_index]; // Return the element at that index
                     }
                     
                     // Increment operator - moves to next element
                     ReverseOrder& operator++() {
                         current_position++; // Increment current position
-                        return *this;
+                        return *this; // Return the updated iterator
                     }
 
                     // Post-increment operator - returns current state before incrementing
@@ -352,12 +352,12 @@ namespace my_container {
 
                     // Equal operator to compare iterators
                     bool operator==(const ReverseOrder& other) const {
-                        return current_position == other.current_position;
+                        return current_position == other.current_position; // Compare current positions of both iterators
                     }
                     
                     // Not equal operator to compare iterators
                     bool operator!=(const ReverseOrder& other) const {
-                        return current_position != other.current_position;
+                        return current_position != other.current_position; // Compare current positions of both iterators
                     }
             };
 
@@ -387,7 +387,7 @@ namespace my_container {
                     // Increment operator - moves to next element
                     Order& operator++() {
                         current_position++; // Increment current position
-                        return *this;
+                        return *this; // Return the updated iterator
                     }
 
                     // Post-increment operator - returns current state before incrementing
@@ -399,12 +399,12 @@ namespace my_container {
 
                     // Equal operator to compare iterators
                     bool operator==(const Order& other) const {
-                        return current_position == other.current_position;
+                        return current_position == other.current_position; // Compare current positions of both iterators
                     }
                     
                     // Not equal operator to compare iterators
                     bool operator!=(const Order& other) const {
-                        return current_position != other.current_position;
+                        return current_position != other.current_position; // Compare current positions of both iterators
                     }
             };
 
@@ -445,14 +445,14 @@ namespace my_container {
 
                     // Dereference operator - returns current element
                     const T& operator*() const {
-                        size_t actual_index = sorted_indices[current_position];
-                        return container_ptr->data[actual_index];
+                        size_t actual_index = sorted_indices[current_position]; // Get the actual index from sorted indices
+                        return container_ptr->data[actual_index]; // Return the element at that index
                     }
                     
                     // Increment operator - moves to next element
                     MiddleOutOrder& operator++() {
                         current_position++; // Increment current position
-                        return *this;
+                        return *this; // Return the updated iterator
                     }
 
                     // Post-increment operator - returns current state before incrementing
@@ -464,12 +464,12 @@ namespace my_container {
 
                     // Equal operator to compare iterators
                     bool operator==(const MiddleOutOrder& other) const {
-                        return current_position == other.current_position;
+                        return current_position == other.current_position; // Compare current positions of both iterators
                     }
                     
                     // Not equal operator to compare iterators
                     bool operator!=(const MiddleOutOrder& other) const {
-                        return current_position != other.current_position;
+                        return current_position != other.current_position; // Compare current positions of both iterators
                     }
             };
 
