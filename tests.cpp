@@ -6,7 +6,7 @@
 using namespace my_container;
 
 TEST_CASE("MyContainer and Iterators - basic functionality") {
-    MyContainer<> c; 
+    MyContainer<> c;  // Create an instance of MyContainer with default type (should be int)
 
     SUBCASE("Default constructor") {
         CHECK(c.size() == 0); // Initial size should be 0
@@ -32,6 +32,7 @@ TEST_CASE("MyContainer - add, remove, size and output operator") {
     }
 
     SUBCASE("Add duplicate elements") {
+        // Add elements to the container
         c.add(10);
         c.add(20);
         c.add(10); // Adding a duplicate element
@@ -40,6 +41,7 @@ TEST_CASE("MyContainer - add, remove, size and output operator") {
     }
 
     SUBCASE("Remove existing element") {
+        // Add elements to the container
         c.add(10);
         c.add(20);
         c.add(30);
@@ -50,6 +52,7 @@ TEST_CASE("MyContainer - add, remove, size and output operator") {
     }
 
     SUBCASE("Remove all occurrences of an element") {
+        // Add elements to the container
         c.add(10);
         c.add(20);
         c.add(10); // Add 10 again to have two occurrences
@@ -60,7 +63,7 @@ TEST_CASE("MyContainer - add, remove, size and output operator") {
     }
 
     SUBCASE("Remove non-existent element throws") {
-        c.add(10);
+        c.add(10); // Add an element to the container
         CHECK_THROWS(c.remove(40)); // Attempt to remove an element that doesn't exist should throw an exception
     }
 
@@ -72,17 +75,20 @@ TEST_CASE("MyContainer - add, remove, size and output operator") {
     }
 
     SUBCASE("Removing all elements one by one") {
-        MyContainer<int> c;
+        MyContainer<int> c; // Create a new instance of MyContainer with int type
+        
+        // Add elements to the container
         c.add(1);
         c.add(2);
         c.add(3);
 
+        // Remove elements one by one
         c.remove(1);
         c.remove(2);
         c.remove(3);
 
-        CHECK(c.size() == 0);
-        CHECK(c.begin_order() == c.end_order());
+        CHECK(c.size() == 0); // Size should be 0 after removing all elements
+        CHECK(c.begin_order() == c.end_order()); // Check if the begin and end iterators are equal, indicating the container is empty
     }
 
     SUBCASE("Output operator") {
@@ -99,7 +105,7 @@ TEST_CASE("MyContainer - add, remove, size and output operator") {
 }
 
 TEST_CASE("AscendingOrder iterator - basic functionality") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
     
     // Add elements to the container
     c.add(4);
@@ -119,7 +125,7 @@ TEST_CASE("AscendingOrder iterator - basic functionality") {
 }
 
 TEST_CASE("DescendingOrder iterator - basic functionality") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
 
     // Add elements to the container
     c.add(4);
@@ -139,7 +145,7 @@ TEST_CASE("DescendingOrder iterator - basic functionality") {
 }
 
 TEST_CASE("SideCrossOrder iterator - basic functionality") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
 
     // Add elements to the container
     c.add(7);
@@ -161,7 +167,7 @@ TEST_CASE("SideCrossOrder iterator - basic functionality") {
 }
 
 TEST_CASE("ReverseOrder iterator - basic functionality") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
     
     // Add elements to the container
     c.add(1);
@@ -181,7 +187,7 @@ TEST_CASE("ReverseOrder iterator - basic functionality") {
 }
 
 TEST_CASE("Order iterator - basic functionality") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
 
     // Add elements to the container
     c.add(10);
@@ -201,7 +207,7 @@ TEST_CASE("Order iterator - basic functionality") {
 }
 
 TEST_CASE("MiddleOutOrder iterator - basic functionality") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
 
     // Add elements to the container
     c.add(7);
@@ -223,7 +229,7 @@ TEST_CASE("MiddleOutOrder iterator - basic functionality") {
 }
 
 TEST_CASE("SideCrossOrder with odd number of elements") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
 
     // Add elements to the container
     c.add(7);
@@ -247,7 +253,7 @@ TEST_CASE("SideCrossOrder with odd number of elements") {
 }
 
 TEST_CASE("SideCrossOrder with even number of elements") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
 
     // Add elements to the container
     c.add(4);
@@ -270,7 +276,7 @@ TEST_CASE("SideCrossOrder with even number of elements") {
 }
 
 TEST_CASE("MiddleOutOrder with odd number of elements") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
     
     // Add elements to the container
     c.add(1);
@@ -293,7 +299,7 @@ TEST_CASE("MiddleOutOrder with odd number of elements") {
 }
 
 TEST_CASE("MiddleOutOrder with even number of elements") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
 
     // Add elements to the container
     c.add(1);
@@ -316,7 +322,7 @@ TEST_CASE("MiddleOutOrder with even number of elements") {
 }
 
 TEST_CASE("MiddleOutOrder visits all elements exactly once") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
 
     // Add elements to the container
     c.add(10);
@@ -339,47 +345,47 @@ TEST_CASE("MiddleOutOrder visits all elements exactly once") {
 }
 
 TEST_CASE("Empty container iterators are equal") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
 
     SUBCASE("Empty container AscendingOrder iterator") {
-        auto it_begin = c.begin_ascending_order();
-        auto it_end = c.end_ascending_order();
+        auto it_begin = c.begin_ascending_order(); // Get the beginning iterator for ascending order
+        auto it_end = c.end_ascending_order(); // Get the end iterator for ascending order
         CHECK(it_begin == it_end); // Empty ascending order iterators should be equal
     }
 
     SUBCASE("Empty container DescendingOrder iterator") {
-        auto it_begin = c.begin_descending_order();
-        auto it_end = c.end_descending_order();
+        auto it_begin = c.begin_descending_order(); // Get the beginning iterator for descending order
+        auto it_end = c.end_descending_order(); // Get the end iterator for descending order
         CHECK(it_begin == it_end); // Empty descending order iterators should be equal
     }
 
     SUBCASE("Empty container SideCrossOrder iterator") {
-        auto it_begin = c.begin_side_cross_order();
-        auto it_end = c.end_side_cross_order();
+        auto it_begin = c.begin_side_cross_order(); // Get the beginning iterator for side cross order
+        auto it_end = c.end_side_cross_order(); // Get the end iterator for side cross order
         CHECK(it_begin == it_end); // Empty side cross order iterators should be equal
     }
 
     SUBCASE("Empty container ReverseOrder iterator") {
-        auto it_begin = c.begin_reverse_order();
-        auto it_end = c.end_reverse_order();
+        auto it_begin = c.begin_reverse_order(); // Get the beginning iterator for reverse order
+        auto it_end = c.end_reverse_order(); // Get the end iterator for reverse order
         CHECK(it_begin == it_end); // Empty reverse order iterators should be equal
     }
 
     SUBCASE("Empty container Order iterator") {
-        auto it_begin = c.begin_order();
-        auto it_end = c.end_order();
+        auto it_begin = c.begin_order(); // Get the beginning iterator for regular order
+        auto it_end = c.end_order(); // Get the end iterator for regular order
         CHECK(it_begin == it_end); // Empty order iterators should be equal
     }
 
     SUBCASE("Empty container MiddleOutOrder iterator") {
-        auto it_begin = c.begin_middle_out_order();
-        auto it_end = c.end_middle_out_order();
+        auto it_begin = c.begin_middle_out_order(); // Get the beginning iterator for middle out order
+        auto it_end = c.end_middle_out_order(); // Get the end iterator for middle out order
         CHECK(it_begin == it_end); // Empty middle out order iterators should be equal
     }
 }
 
 TEST_CASE("Negative and positive numbers in container") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
 
     // Add elements to the container
     c.add(-10); // negative number
@@ -400,7 +406,7 @@ TEST_CASE("Negative and positive numbers in container") {
 }
 
 TEST_CASE("Iterator remains valid after using remove") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
 
     // Add elements to the container
     c.add(10);
@@ -432,7 +438,7 @@ TEST_CASE("Iterator remains valid after using remove") {
 }
 
 TEST_CASE("Iterator on duplicate elements") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
 
     // Add elements to the container
     c.add(10);
@@ -453,7 +459,7 @@ TEST_CASE("Iterator on duplicate elements") {
 }
 
 TEST_CASE("Multiple iterators on the same container") {
-    MyContainer<int> c;
+    MyContainer<int> c; // Create an instance of MyContainer with int type
 
     // Add elements to the container
     c.add(4);
@@ -478,7 +484,7 @@ TEST_CASE("Multiple iterators on the same container") {
 }
 
 TEST_CASE("MyContainer with strings") {
-    MyContainer<std::string> c;
+    MyContainer<std::string> c; // Create an instance of MyContainer with string type
 
     // Add elements to the container
     c.add("apple");
@@ -493,7 +499,7 @@ TEST_CASE("MyContainer with strings") {
 }
 
 TEST_CASE("AscendingOrder with strings") {
-    MyContainer<std::string> c;
+    MyContainer<std::string> c; // Create an instance of MyContainer with string type
 
     // Add elements to the container
     c.add("banana");
@@ -513,7 +519,7 @@ TEST_CASE("AscendingOrder with strings") {
 }
 
 TEST_CASE("SideCrossOrder with strings") {
-    MyContainer<std::string> c;
+    MyContainer<std::string> c; // Create an instance of MyContainer with string type
 
     // Add elements to the container
     c.add("apple");
@@ -549,7 +555,7 @@ TEST_CASE("MyContainer with doubles") {
 }
 
 TEST_CASE("AscendingOrder with doubles including negative numbers") {
-    MyContainer<double> c;
+    MyContainer<double> c; // Create an instance of MyContainer with double type
 
     // Add elements to the container
     c.add(2.2);
@@ -569,7 +575,7 @@ TEST_CASE("AscendingOrder with doubles including negative numbers") {
 }
 
 TEST_CASE("DescendingOrder with doubles including negative numbers") {
-    MyContainer<double> c;
+    MyContainer<double> c; // Create an instance of MyContainer with double type
 
     // Add elements to the container
     c.add(2.2);
