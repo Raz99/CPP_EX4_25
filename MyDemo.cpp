@@ -1,5 +1,4 @@
 // Email: razcohenp@gmail.com
-#include <iostream>
 #include "MyContainer.hpp"
 
 using namespace my_container; // Use the my_container namespace
